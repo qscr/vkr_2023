@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dynamic_store/views/modals/web/web_modal_container.dart';
 import 'package:flutter_dynamic_store/widgets/custom_dropdown_input.dart';
 import 'package:flutter_dynamic_store/widgets/custom_input.dart';
+import 'package:flutter_dynamic_store/widgets/web_admin_panel_widgets/custom_picker_modals/carousel_picker_modal.dart';
 
 enum PickingType {
   string,
@@ -73,8 +74,15 @@ class BaseSemanticItemOptions {
 
   final List<SemanticOption> options;
 
+  void Function(Map<String, dynamic> data)? onPicked;
+
+  void setOnPickedFunc(Function(Map<String, dynamic> data)? onPicked) {
+    this.onPicked = onPicked;
+  }
+
   BaseSemanticItemOptions({
     required this.options,
+    this.onPicked,
   });
 
   Future<void> showPicker({
@@ -89,6 +97,7 @@ class BaseSemanticItemOptions {
         previousValues: previousValues,
       ),
     );
+    onPicked?.call(data);
   }
 }
 
@@ -241,4 +250,23 @@ class SizedBoxOptions extends BaseSemanticItemOptions {
             SemanticOption(name: "width", type: PickingType.double),
           ],
         );
+}
+
+class CarouselOptions extends BaseSemanticItemOptions {
+  CarouselOptions() : super(options: []);
+
+  @override
+  Future<void> showPicker({
+    required BuildContext context,
+    Map<String, dynamic>? previousValues,
+  }) async {
+    await showDialog(
+      context: context,
+      builder: (context) => CarouselPickerModal(
+        data: data,
+        previousValues: previousValues,
+      ),
+    );
+    onPicked?.call(data);
+  }
 }

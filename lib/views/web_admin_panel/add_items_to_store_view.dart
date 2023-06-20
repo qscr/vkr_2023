@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dynamic_store/business_logic/items_page/items_page_bloc.dart';
 import 'package:flutter_dynamic_store/helpers/image_helper.dart';
 import 'package:flutter_dynamic_store/helpers/money_formatter.dart';
+import 'package:flutter_dynamic_store/models/api/product/get/get_shop_products_entities_response.dart';
 import 'package:flutter_dynamic_store/views/modals/web/add_new_item_modal.dart';
 import 'package:flutter_dynamic_store/widgets/carousel_slider.dart';
 import 'package:flutter_dynamic_store/widgets/loading_screen.dart';
+import 'package:flutter_dynamic_store/widgets/web_admin_panel_widgets/custom_checkbox.dart';
 import 'package:flutter_dynamic_store/widgets/web_admin_panel_widgets/custom_navigation_bar.dart';
 
 class AddItemsToStoreView extends StatefulWidget {
@@ -16,6 +18,9 @@ class AddItemsToStoreView extends StatefulWidget {
 }
 
 class _AddItemsToStoreViewState extends State<AddItemsToStoreView> {
+  final List<GetShopProductsEntitiesResponse> itemsToDelete = [];
+  bool deletionModeOn = false;
+
   @override
   void initState() {
     context.read<ItemsPageBloc>().add(const GetItems());
@@ -26,13 +31,17 @@ class _AddItemsToStoreViewState extends State<AddItemsToStoreView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(context),
-      body: BlocBuilder<ItemsPageBloc, ItemsPageState>(
+      body: BlocConsumer<ItemsPageBloc, ItemsPageState>(
+        listener: (context, state) {
+          if (state is ItemsSuccess) {
+            itemsToDelete.clear();
+          }
+        },
         builder: (context, state) {
           if (state is ItemsLoading || state is Initial) {
             return const LoadingScreen();
           }
           if (state is ItemsSuccess) {
-            print(state);
             return Column(
               children: [
                 Row(
@@ -43,21 +52,55 @@ class _AddItemsToStoreViewState extends State<AddItemsToStoreView> {
                       onPressed: () {
                         showDialog(
                           context: context,
-                          builder: (context) => const AddNewItemModal(),
+                          builder: (ctx) => BlocProvider.value(
+                            value: context.read<ItemsPageBloc>(),
+                            child: const AddNewItemModal(),
+                          ),
                         );
                       },
                       icon: const Icon(Icons.add),
                     ),
                     const SizedBox(width: 20),
                     ElevatedButton.icon(
-                      label: const Text("Режим удаления товаров"),
-                      onPressed: () {},
+                      label: Text(
+                        deletionModeOn ? "Выйти из режима удаления" : "Режим удаления товаров",
+                      ),
+                      onPressed: () {
+                        if (deletionModeOn) {
+                          itemsToDelete.clear();
+                        }
+                        setState(() {
+                          deletionModeOn = !deletionModeOn;
+                        });
+                      },
                       icon: const Icon(Icons.delete),
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
                         backgroundColor: Colors.red,
                       ),
                     ),
+                    const SizedBox(width: 20),
+                    deletionModeOn
+                        ? ElevatedButton.icon(
+                            label: const Text(
+                              "Удалить выбранные товары",
+                            ),
+                            onPressed: itemsToDelete.isNotEmpty
+                                ? () {
+                                    context.read<ItemsPageBloc>().add(DeleteItems(itemsToDelete));
+
+                                    setState(() {
+                                      deletionModeOn = !deletionModeOn;
+                                    });
+                                  }
+                                : null,
+                            icon: const Icon(Icons.delete),
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              backgroundColor: Colors.red,
+                            ),
+                          )
+                        : const SizedBox(),
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -101,6 +144,22 @@ class _AddItemsToStoreViewState extends State<AddItemsToStoreView> {
                                           Text("Название продукта: ${item.name ?? ''}"),
                                           Text("Описание: ${item.description ?? ''}"),
                                           Text("Цена: ${item.price?.toMoneyString() ?? ''}"),
+                                          deletionModeOn
+                                              ? CustomCheckbox(
+                                                  value: itemsToDelete.contains(item),
+                                                  onChanged: (value) {
+                                                    if (value == null) {
+                                                      return;
+                                                    }
+                                                    if (value) {
+                                                      itemsToDelete.add(item);
+                                                    } else {
+                                                      itemsToDelete.remove(item);
+                                                    }
+                                                    setState(() {});
+                                                  },
+                                                )
+                                              : const SizedBox(),
                                         ],
                                       ),
                                     ],

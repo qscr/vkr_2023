@@ -14,7 +14,28 @@ class CarouselParser extends WidgetParser {
 
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext, ClickListener? listener) {
-    final items = buildContext.read<DataFetcher>().data[map["key"]] as List<dynamic>;
+    List<dynamic> items = [];
+    if (map['items'] != null) {
+      items = map['items'];
+      return Builder(
+        builder: (context) {
+          return Carousel(
+            items: items.map((e) {
+              return CarouselItem(
+                imageUrl: e['url'],
+                onClick: () {
+                  if (listener != null && e['event'] != null) {
+                    listener.onClicked(e['event'], context);
+                  }
+                },
+              );
+            }).toList(),
+          );
+        },
+      );
+    } else {
+      items = buildContext.read<DataFetcher>().data[map["key"]] as List<dynamic>;
+    }
 
     return Builder(
       builder: (context) {

@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:dynamic_widget/dynamic_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dynamic_store/helpers/dependency_injection.dart';
+import 'package:flutter_dynamic_store/helpers/provider_data_extractor.dart';
 import 'package:flutter_dynamic_store/models/api/dynamic_content_response.dart';
+import 'package:flutter_dynamic_store/service/api/layout_api_client.dart';
 
 class DynamicView extends StatelessWidget {
   const DynamicView(this.dynamicContent, {Key? key}) : super(key: key);
@@ -9,13 +14,15 @@ class DynamicView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildWidget(
-      context,
-      dynamicContent.routes
-          .firstWhere(
-            (route) => route.name == dynamicContent.initialRouteName,
-          )
-          .contentString,
+    return SafeArea(
+      child: _buildWidget(
+        context,
+        dynamicContent.routes
+            .firstWhere(
+              (route) => route.name == dynamicContent.initialRouteName,
+            )
+            .contentString,
+      ),
     );
   }
 
@@ -32,6 +39,22 @@ class DefaultClickListener implements ClickListener {
 
   @override
   void onClicked(String? event, BuildContext? context) async {
+    if (event != null && context != null) {
+      event = extractData(event, context);
+    }
+    if (event?.startsWith('shop://') ?? false) {
+      final id = event!.split('shop://').last;
+      final apiClient = Resolver.resolve<LayoutApiClient>();
+      final layout = await apiClient.getShopLayout(id);
+      Navigator.of(context!).push(
+        MaterialPageRoute(
+          builder: (context) => Scaffold(
+              body:
+                  DynamicView(DynamicContentResponse.fromJson(jsonDecode(layout["layoutDesign"])))),
+        ),
+      );
+      return;
+    }
     if (event?.startsWith('route://') ?? false) {
       final nextRoute = event!.split('route://').last;
       if (context == null) {
@@ -48,7 +71,7 @@ class DefaultClickListener implements ClickListener {
           builder: (context) => widget,
         ),
       );
+      return;
     }
-    print("Receive click event: ${event ?? ''}");
   }
 }

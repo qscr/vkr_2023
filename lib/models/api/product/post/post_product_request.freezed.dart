@@ -30,7 +30,7 @@ mixin _$PostProductRequest {
 
   /// Цена товара
   @JsonKey(name: "price")
-  int? get price => throw _privateConstructorUsedError;
+  double? get price => throw _privateConstructorUsedError;
 
   /// Ид фотографий товара
   @JsonKey(name: "photoIds")
@@ -51,7 +51,7 @@ abstract class $PostProductRequestCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: "name") String? name,
       @JsonKey(name: "description") String? description,
-      @JsonKey(name: "price") int? price,
+      @JsonKey(name: "price") double? price,
       @JsonKey(name: "photoIds") List<String>? photoIds});
 }
 
@@ -85,7 +85,7 @@ class _$PostProductRequestCopyWithImpl<$Res, $Val extends PostProductRequest>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       photoIds: freezed == photoIds
           ? _value.photoIds
           : photoIds // ignore: cast_nullable_to_non_nullable
@@ -105,7 +105,7 @@ abstract class _$$PostProductReqCopyWith<$Res>
   $Res call(
       {@JsonKey(name: "name") String? name,
       @JsonKey(name: "description") String? description,
-      @JsonKey(name: "price") int? price,
+      @JsonKey(name: "price") double? price,
       @JsonKey(name: "photoIds") List<String>? photoIds});
 }
 
@@ -137,7 +137,7 @@ class __$$PostProductReqCopyWithImpl<$Res>
       price: freezed == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       photoIds: freezed == photoIds
           ? _value._photoIds
           : photoIds // ignore: cast_nullable_to_non_nullable
@@ -172,7 +172,7 @@ class _$PostProductReq implements PostProductReq {
   /// Цена товара
   @override
   @JsonKey(name: "price")
-  final int? price;
+  final double? price;
 
   /// Ид фотографий товара
   final List<String>? _photoIds;
@@ -228,7 +228,7 @@ abstract class PostProductReq implements PostProductRequest {
   const factory PostProductReq(
           {@JsonKey(name: "name") final String? name,
           @JsonKey(name: "description") final String? description,
-          @JsonKey(name: "price") final int? price,
+          @JsonKey(name: "price") final double? price,
           @JsonKey(name: "photoIds") final List<String>? photoIds}) =
       _$PostProductReq;
 
@@ -249,7 +249,7 @@ abstract class PostProductReq implements PostProductRequest {
 
   /// Цена товара
   @JsonKey(name: "price")
-  int? get price;
+  double? get price;
   @override
 
   /// Ид фотографий товара

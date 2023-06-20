@@ -24,13 +24,14 @@ const testJsonRouteString = '''
     {
       "name": "ListOfShops",
       "content": {
-        "type": "Expanded",
+        "type": "DynamicList",
+        "key": "shops",
         "child": {
-          "type": "DynamicList",
-          "key": "shops",
+          "type": "Container",
+          "click_event": "shop://{id}",
           "child": {
-            "type": "Padding",
-            "padding": "30,0,30,0",
+          "type": "Padding",
+          "padding": "30,0,30,0",
             "child": {
               "type": "Row",
               "mainAxisAlignment": "spaceBetween",
@@ -52,28 +53,25 @@ const testJsonRouteString = '''
     {
       "name": "ListOfCategories",
       "content": {
-        "type": "Expanded",
+        "type": "DynamicGrid",
+        "key": "categories",
+        "itemsCount": 3,
         "child": {
-          "type": "DynamicGrid",
-          "key": "categories",
-          "itemsCount": 3,
-          "child": {
-            "type": "Column",
-            "children": [
-              {
-                "type": "DynamicPicture",
-                "imageId": "{fileId}"
-              },
-              {
-                "type": "SizedBox",
-                "height": 20.0
-              },
-              {
-                "type": "DynamicText",
-                "data": "{name}"
-              }
-            ]
-          }
+          "type": "Column",
+          "children": [
+            {
+              "type": "DynamicPicture",
+              "imageId": "{fileId}"
+            },
+            {
+              "type": "SizedBox",
+              "height": 20.0
+            },
+            {
+              "type": "DynamicText",
+              "data": "{name}"
+            }
+          ]
         }
       }
     }
@@ -86,22 +84,25 @@ const testJsonRouteString = '''
         "path": "ShopMain/Main",
         "methodType": "get",
         "child": {
+          "type": "SingleChildScrollView",
+          "child": {
           "type": "Column",
-          "children": [
-            {
-              "type": "Carousel",
-              "key": "advertisements",
-              "url": "{fileId}"
-            },
-            {
-              "type": "Ref",
-              "data": "ListOfCategories"
-            },
-            {
-              "type": "Ref",
-              "data": "ListOfShops"
-            }
-          ]
+            "children": [
+              {
+                "type": "Carousel",
+                "key": "advertisements",
+                "url": "{fileId}"
+              },
+              {
+                "type": "Ref",
+                "data": "ListOfCategories"
+              },
+              {
+                "type": "Ref",
+                "data": "ListOfShops"
+              }
+            ]
+          }
         }
       }
     },

@@ -14,7 +14,7 @@ class PostProductRequest with _$PostProductRequest {
     @JsonKey(name: "description") String? description,
 
     /// Цена товара
-    @JsonKey(name: "price") int? price,
+    @JsonKey(name: "price") double? price,
 
     /// Ид фотографий товара
     @JsonKey(name: "photoIds") List<String>? photoIds,

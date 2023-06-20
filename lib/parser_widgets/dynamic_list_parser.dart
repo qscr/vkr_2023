@@ -15,6 +15,8 @@ class DynamicListParser extends WidgetParser {
     final key = map["key"] as String;
     final listOfItems = buildContext.read<DataFetcher>().data[key] as List<dynamic>;
     return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
       itemBuilder: (context, index) => Provider(
         create: (context) => DataProvider(
           listOfItems[index],

@@ -53,7 +53,7 @@ class _BlobsBackgroundState extends State<BlobsBackground> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Blob.animatedRandom(
-              size: size.height * 0.4,
+              size: size.height * 0.3,
               debug: false,
               controller: _blobControllers[0],
               duration: _animationDuration,
@@ -97,7 +97,7 @@ class _BlobsBackgroundState extends State<BlobsBackground> {
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 100, 0, 0),
               child: Blob.animatedRandom(
-                size: size.height * 0.4,
+                size: size.height * 0.3,
                 debug: false,
                 duration: _animationDuration,
                 controller: _blobControllers[3],

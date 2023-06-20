@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_dynamic_store/models/api/product/delete/delete_product_request.dart';
 import 'package:flutter_dynamic_store/models/api/product/get/get_shop_products_response.dart';
 import 'package:flutter_dynamic_store/models/api/product/post/post_product_request.dart';
 import 'package:flutter_dynamic_store/models/api/product/post/post_product_response.dart';
@@ -17,6 +18,10 @@ abstract class IProductApiClient {
   /// Создание продукта
   @POST("")
   Future<PostProductResponse> createProduct(@Body() PostProductRequest request);
+
+  /// Удаление продуктов
+  @DELETE("")
+  Future<void> deleteProduct(@Body() DeleteProductRequest request);
 }
 
 /// Апи-клиент приложения для Authentication-раздела

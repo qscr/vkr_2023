@@ -16,6 +16,8 @@ class DynamicGridParser extends WidgetParser {
     final itemsCount = map["itemsCount"] ?? 2;
     final listOfItems = buildContext.read<DataFetcher>().data[key] as List<dynamic>;
     return GridView.builder(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: itemsCount),
       itemBuilder: (context, index) => Provider(
         create: (context) => DataProvider(

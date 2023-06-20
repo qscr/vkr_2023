@@ -38,6 +38,11 @@ class SemanticItem extends StatelessWidget {
         {"name": name},
       );
     }
+
+    options?.setOnPickedFunc((data) {
+      json.addEntries(data.entries);
+      updateFunc?.call();
+    });
   }
 
   @override
@@ -56,8 +61,6 @@ class SemanticItem extends StatelessWidget {
             context: context,
             previousValues: json,
           );
-          json.addEntries(options?.data.entries ?? {});
-          updateFunc?.call();
         },
         child: Stack(
           children: [

@@ -10,7 +10,7 @@ _$PostProductReq _$$PostProductReqFromJson(Map<String, dynamic> json) =>
     _$PostProductReq(
       name: json['name'] as String?,
       description: json['description'] as String?,
-      price: json['price'] as int?,
+      price: (json['price'] as num?)?.toDouble(),
       photoIds: (json['photoIds'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),

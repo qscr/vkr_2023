@@ -1,6 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dynamic_store/business_logic/web_generator/web_generator_bloc.dart';
+import 'package:flutter_dynamic_store/helpers/dependency_injection.dart';
+import 'package:flutter_dynamic_store/helpers/error_dialog.dart';
 import 'package:flutter_dynamic_store/models/api/dynamic_content_response.dart';
 import 'package:flutter_dynamic_store/models/api/route_item_response.dart';
 import 'package:flutter_dynamic_store/providers/widgets_provider.dart';
@@ -20,6 +24,7 @@ final Map<String, BaseSemanticItemOptions> optionsByNameMap = {
   "DynamicText": TextSemanticOptions(),
   "DynamicPicture": PictureSemanticOptions(),
   "SizedBox": SizedBoxOptions(),
+  "Carousel": CarouselOptions(),
 };
 
 class WebGeneratorView extends StatefulWidget {
@@ -74,6 +79,49 @@ class _WebGeneratorViewState extends State<WebGeneratorView> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    BlocProvider(
+                      create: (context) => Resolver.resolve<WebGeneratorBloc>(),
+                      child: Builder(builder: (context) {
+                        return BlocListener<WebGeneratorBloc, WebGeneratorState>(
+                          listener: (context, state) {
+                            if (state is UploadingSuccess) {
+                              showErrorDialog(
+                                context: context,
+                                message: "Верстка успешно загружена",
+                              );
+                            }
+                            if (state is UploadingError) {
+                              showErrorDialog(
+                                context: context,
+                                message: "Не удалось загрузить верстку",
+                              );
+                            }
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ElevatedButton.icon(
+                              onPressed: () {
+                                final dynamicContent = DynamicContentResponse(
+                                  initialRouteName: "Test",
+                                  routes: [
+                                    RouteItemResponse(name: "Test", content: {
+                                      "type": "Column",
+                                      "children": layout,
+                                    }),
+                                  ],
+                                  widgets: [],
+                                );
+                                context
+                                    .read<WebGeneratorBloc>()
+                                    .add(UploadNewLayout(dynamicContent.toJson()));
+                              },
+                              icon: const Icon(Icons.upload_file_outlined),
+                              label: const Text("Загрузить верстку в магазин"),
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -112,7 +160,9 @@ class _WebGeneratorViewState extends State<WebGeneratorView> {
                             ),
                             SemanticItem(
                               name: "Карусель",
-                              json: Map<String, dynamic>.from({"type": "carousel"}),
+                              json: Map<String, dynamic>.from({
+                                "type": "Carousel",
+                              }),
                               moveFunc: moveElements,
                             ),
                           ],
@@ -150,17 +200,19 @@ class _WebGeneratorViewState extends State<WebGeneratorView> {
                         height: 600,
                         color: candidate.isNotEmpty ? Colors.red : backgroundColor,
                         child: layout.isNotEmpty
-                            ? Column(
-                                children: layout.map((item) {
-                                  return SemanticItem(
-                                    name: item["name"],
-                                    json: item,
-                                    moveFunc: moveElements,
-                                    isTemplate: false,
-                                    options: optionsByNameMap[item["type"]],
-                                    updateFunc: update,
-                                  );
-                                }).toList(),
+                            ? SingleChildScrollView(
+                                child: Column(
+                                  children: layout.map((item) {
+                                    return SemanticItem(
+                                      name: item["name"],
+                                      json: item,
+                                      moveFunc: moveElements,
+                                      isTemplate: false,
+                                      options: optionsByNameMap[item["type"]],
+                                      updateFunc: update,
+                                    );
+                                  }).toList(),
+                                ),
                               )
                             : const SizedBox(),
                       ),
@@ -186,21 +238,23 @@ class _WebGeneratorViewState extends State<WebGeneratorView> {
                       color: Theme.of(context).scaffoldBackgroundColor,
                       height: 600,
                       width: 350,
-                      child: Builder(
-                        builder: (context) {
-                          final dynamicContent = DynamicContentResponse(
-                            initialRouteName: "Test",
-                            routes: [
-                              RouteItemResponse(name: "Test", content: {
-                                "type": "Column",
-                                "children": layout,
-                              }),
-                            ],
-                            widgets: [],
-                          );
-                          // context.read<WidgetsProvider>().widgets = dynamicContent.widgetsMap;
-                          return DynamicView(dynamicContent);
-                        },
+                      child: SingleChildScrollView(
+                        child: Builder(
+                          builder: (context) {
+                            final dynamicContent = DynamicContentResponse(
+                              initialRouteName: "Test",
+                              routes: [
+                                RouteItemResponse(name: "Test", content: {
+                                  "type": "Column",
+                                  "children": layout,
+                                }),
+                              ],
+                              widgets: [],
+                            );
+                            // context.read<WidgetsProvider>().widgets = dynamicContent.widgetsMap;
+                            return DynamicView(dynamicContent);
+                          },
+                        ),
                       ),
                     ),
                   ],

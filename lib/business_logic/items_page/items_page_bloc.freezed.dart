@@ -625,19 +625,29 @@ mixin _$ItemsPageEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getItems,
-    required TResult Function() deleteItems,
+    required TResult Function(List<GetShopProductsEntitiesResponse> items)
+        deleteItems,
+    required TResult Function(
+            List<XFile> pictures, String description, String name, double cost)
+        createItem,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? getItems,
-    TResult? Function()? deleteItems,
+    TResult? Function(List<GetShopProductsEntitiesResponse> items)? deleteItems,
+    TResult? Function(
+            List<XFile> pictures, String description, String name, double cost)?
+        createItem,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getItems,
-    TResult Function()? deleteItems,
+    TResult Function(List<GetShopProductsEntitiesResponse> items)? deleteItems,
+    TResult Function(
+            List<XFile> pictures, String description, String name, double cost)?
+        createItem,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -645,18 +655,21 @@ mixin _$ItemsPageEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(GetItems value) getItems,
     required TResult Function(DeleteItems value) deleteItems,
+    required TResult Function(CreateItem value) createItem,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(GetItems value)? getItems,
     TResult? Function(DeleteItems value)? deleteItems,
+    TResult? Function(CreateItem value)? createItem,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(GetItems value)? getItems,
     TResult Function(DeleteItems value)? deleteItems,
+    TResult Function(CreateItem value)? createItem,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -718,7 +731,11 @@ class _$GetItems implements GetItems {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getItems,
-    required TResult Function() deleteItems,
+    required TResult Function(List<GetShopProductsEntitiesResponse> items)
+        deleteItems,
+    required TResult Function(
+            List<XFile> pictures, String description, String name, double cost)
+        createItem,
   }) {
     return getItems();
   }
@@ -727,7 +744,10 @@ class _$GetItems implements GetItems {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? getItems,
-    TResult? Function()? deleteItems,
+    TResult? Function(List<GetShopProductsEntitiesResponse> items)? deleteItems,
+    TResult? Function(
+            List<XFile> pictures, String description, String name, double cost)?
+        createItem,
   }) {
     return getItems?.call();
   }
@@ -736,7 +756,10 @@ class _$GetItems implements GetItems {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getItems,
-    TResult Function()? deleteItems,
+    TResult Function(List<GetShopProductsEntitiesResponse> items)? deleteItems,
+    TResult Function(
+            List<XFile> pictures, String description, String name, double cost)?
+        createItem,
     required TResult orElse(),
   }) {
     if (getItems != null) {
@@ -750,6 +773,7 @@ class _$GetItems implements GetItems {
   TResult map<TResult extends Object?>({
     required TResult Function(GetItems value) getItems,
     required TResult Function(DeleteItems value) deleteItems,
+    required TResult Function(CreateItem value) createItem,
   }) {
     return getItems(this);
   }
@@ -759,6 +783,7 @@ class _$GetItems implements GetItems {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(GetItems value)? getItems,
     TResult? Function(DeleteItems value)? deleteItems,
+    TResult? Function(CreateItem value)? createItem,
   }) {
     return getItems?.call(this);
   }
@@ -768,6 +793,7 @@ class _$GetItems implements GetItems {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(GetItems value)? getItems,
     TResult Function(DeleteItems value)? deleteItems,
+    TResult Function(CreateItem value)? createItem,
     required TResult orElse(),
   }) {
     if (getItems != null) {
@@ -786,6 +812,8 @@ abstract class _$$DeleteItemsCopyWith<$Res> {
   factory _$$DeleteItemsCopyWith(
           _$DeleteItems value, $Res Function(_$DeleteItems) then) =
       __$$DeleteItemsCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<GetShopProductsEntitiesResponse> items});
 }
 
 /// @nodoc
@@ -795,54 +823,95 @@ class __$$DeleteItemsCopyWithImpl<$Res>
   __$$DeleteItemsCopyWithImpl(
       _$DeleteItems _value, $Res Function(_$DeleteItems) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? items = null,
+  }) {
+    return _then(_$DeleteItems(
+      null == items
+          ? _value._items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<GetShopProductsEntitiesResponse>,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$DeleteItems implements DeleteItems {
-  const _$DeleteItems();
+  const _$DeleteItems(final List<GetShopProductsEntitiesResponse> items)
+      : _items = items;
+
+  final List<GetShopProductsEntitiesResponse> _items;
+  @override
+  List<GetShopProductsEntitiesResponse> get items {
+    if (_items is EqualUnmodifiableListView) return _items;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_items);
+  }
 
   @override
   String toString() {
-    return 'ItemsPageEvent.deleteItems()';
+    return 'ItemsPageEvent.deleteItems(items: $items)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$DeleteItems);
+        (other.runtimeType == runtimeType &&
+            other is _$DeleteItems &&
+            const DeepCollectionEquality().equals(other._items, _items));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_items));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DeleteItemsCopyWith<_$DeleteItems> get copyWith =>
+      __$$DeleteItemsCopyWithImpl<_$DeleteItems>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() getItems,
-    required TResult Function() deleteItems,
+    required TResult Function(List<GetShopProductsEntitiesResponse> items)
+        deleteItems,
+    required TResult Function(
+            List<XFile> pictures, String description, String name, double cost)
+        createItem,
   }) {
-    return deleteItems();
+    return deleteItems(items);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? getItems,
-    TResult? Function()? deleteItems,
+    TResult? Function(List<GetShopProductsEntitiesResponse> items)? deleteItems,
+    TResult? Function(
+            List<XFile> pictures, String description, String name, double cost)?
+        createItem,
   }) {
-    return deleteItems?.call();
+    return deleteItems?.call(items);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? getItems,
-    TResult Function()? deleteItems,
+    TResult Function(List<GetShopProductsEntitiesResponse> items)? deleteItems,
+    TResult Function(
+            List<XFile> pictures, String description, String name, double cost)?
+        createItem,
     required TResult orElse(),
   }) {
     if (deleteItems != null) {
-      return deleteItems();
+      return deleteItems(items);
     }
     return orElse();
   }
@@ -852,6 +921,7 @@ class _$DeleteItems implements DeleteItems {
   TResult map<TResult extends Object?>({
     required TResult Function(GetItems value) getItems,
     required TResult Function(DeleteItems value) deleteItems,
+    required TResult Function(CreateItem value) createItem,
   }) {
     return deleteItems(this);
   }
@@ -861,6 +931,7 @@ class _$DeleteItems implements DeleteItems {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(GetItems value)? getItems,
     TResult? Function(DeleteItems value)? deleteItems,
+    TResult? Function(CreateItem value)? createItem,
   }) {
     return deleteItems?.call(this);
   }
@@ -870,6 +941,7 @@ class _$DeleteItems implements DeleteItems {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(GetItems value)? getItems,
     TResult Function(DeleteItems value)? deleteItems,
+    TResult Function(CreateItem value)? createItem,
     required TResult orElse(),
   }) {
     if (deleteItems != null) {
@@ -880,5 +952,202 @@ class _$DeleteItems implements DeleteItems {
 }
 
 abstract class DeleteItems implements ItemsPageEvent {
-  const factory DeleteItems() = _$DeleteItems;
+  const factory DeleteItems(final List<GetShopProductsEntitiesResponse> items) =
+      _$DeleteItems;
+
+  List<GetShopProductsEntitiesResponse> get items;
+  @JsonKey(ignore: true)
+  _$$DeleteItemsCopyWith<_$DeleteItems> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$CreateItemCopyWith<$Res> {
+  factory _$$CreateItemCopyWith(
+          _$CreateItem value, $Res Function(_$CreateItem) then) =
+      __$$CreateItemCopyWithImpl<$Res>;
+  @useResult
+  $Res call(
+      {List<XFile> pictures, String description, String name, double cost});
+}
+
+/// @nodoc
+class __$$CreateItemCopyWithImpl<$Res>
+    extends _$ItemsPageEventCopyWithImpl<$Res, _$CreateItem>
+    implements _$$CreateItemCopyWith<$Res> {
+  __$$CreateItemCopyWithImpl(
+      _$CreateItem _value, $Res Function(_$CreateItem) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? pictures = null,
+    Object? description = null,
+    Object? name = null,
+    Object? cost = null,
+  }) {
+    return _then(_$CreateItem(
+      pictures: null == pictures
+          ? _value._pictures
+          : pictures // ignore: cast_nullable_to_non_nullable
+              as List<XFile>,
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      cost: null == cost
+          ? _value.cost
+          : cost // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$CreateItem implements CreateItem {
+  const _$CreateItem(
+      {required final List<XFile> pictures,
+      required this.description,
+      required this.name,
+      required this.cost})
+      : _pictures = pictures;
+
+  final List<XFile> _pictures;
+  @override
+  List<XFile> get pictures {
+    if (_pictures is EqualUnmodifiableListView) return _pictures;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_pictures);
+  }
+
+  @override
+  final String description;
+  @override
+  final String name;
+  @override
+  final double cost;
+
+  @override
+  String toString() {
+    return 'ItemsPageEvent.createItem(pictures: $pictures, description: $description, name: $name, cost: $cost)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CreateItem &&
+            const DeepCollectionEquality().equals(other._pictures, _pictures) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.cost, cost) || other.cost == cost));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_pictures), description, name, cost);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CreateItemCopyWith<_$CreateItem> get copyWith =>
+      __$$CreateItemCopyWithImpl<_$CreateItem>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() getItems,
+    required TResult Function(List<GetShopProductsEntitiesResponse> items)
+        deleteItems,
+    required TResult Function(
+            List<XFile> pictures, String description, String name, double cost)
+        createItem,
+  }) {
+    return createItem(pictures, description, name, cost);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? getItems,
+    TResult? Function(List<GetShopProductsEntitiesResponse> items)? deleteItems,
+    TResult? Function(
+            List<XFile> pictures, String description, String name, double cost)?
+        createItem,
+  }) {
+    return createItem?.call(pictures, description, name, cost);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? getItems,
+    TResult Function(List<GetShopProductsEntitiesResponse> items)? deleteItems,
+    TResult Function(
+            List<XFile> pictures, String description, String name, double cost)?
+        createItem,
+    required TResult orElse(),
+  }) {
+    if (createItem != null) {
+      return createItem(pictures, description, name, cost);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetItems value) getItems,
+    required TResult Function(DeleteItems value) deleteItems,
+    required TResult Function(CreateItem value) createItem,
+  }) {
+    return createItem(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetItems value)? getItems,
+    TResult? Function(DeleteItems value)? deleteItems,
+    TResult? Function(CreateItem value)? createItem,
+  }) {
+    return createItem?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetItems value)? getItems,
+    TResult Function(DeleteItems value)? deleteItems,
+    TResult Function(CreateItem value)? createItem,
+    required TResult orElse(),
+  }) {
+    if (createItem != null) {
+      return createItem(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class CreateItem implements ItemsPageEvent {
+  const factory CreateItem(
+      {required final List<XFile> pictures,
+      required final String description,
+      required final String name,
+      required final double cost}) = _$CreateItem;
+
+  List<XFile> get pictures;
+  String get description;
+  String get name;
+  double get cost;
+  @JsonKey(ignore: true)
+  _$$CreateItemCopyWith<_$CreateItem> get copyWith =>
+      throw _privateConstructorUsedError;
 }
