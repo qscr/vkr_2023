@@ -53,6 +53,7 @@ class SemanticItem extends StatelessWidget {
       onDragStarted: () {
         if (isTemplate) {
           json["id"] = const Uuid().v4();
+          print(json);
         }
       },
       child: GestureDetector(

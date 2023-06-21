@@ -70,7 +70,7 @@ class SemanticOption<T> {
 }
 
 class BaseSemanticItemOptions {
-  final Map<String, dynamic> data = <String, dynamic>{};
+  Map<String, dynamic> data = <String, dynamic>{};
 
   final List<SemanticOption> options;
 
@@ -89,6 +89,8 @@ class BaseSemanticItemOptions {
     required BuildContext context,
     Map<String, dynamic>? previousValues,
   }) async {
+    data = <String, dynamic>{};
+
     await showDialog(
       context: context,
       builder: (context) => SemanticOptionsPicker(
@@ -260,6 +262,7 @@ class CarouselOptions extends BaseSemanticItemOptions {
     required BuildContext context,
     Map<String, dynamic>? previousValues,
   }) async {
+    data = <String, dynamic>{};
     await showDialog(
       context: context,
       builder: (context) => CarouselPickerModal(

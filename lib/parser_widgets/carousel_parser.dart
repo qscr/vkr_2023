@@ -14,6 +14,9 @@ class CarouselParser extends WidgetParser {
 
   @override
   Widget parse(Map<String, dynamic> map, BuildContext buildContext, ClickListener? listener) {
+    if (map["items"] == null && map["key"] == null) {
+      return const SizedBox();
+    }
     List<dynamic> items = [];
     if (map['items'] != null) {
       items = map['items'];

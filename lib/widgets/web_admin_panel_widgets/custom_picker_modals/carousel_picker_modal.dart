@@ -22,8 +22,8 @@ class _CarouselPickerModalState extends State<CarouselPickerModal> {
 
   @override
   void initState() {
-    if (widget.data['items'] != null) {
-      final List<dynamic> items = widget.data['items'];
+    if (widget.previousValues?['items'] != null) {
+      final List<dynamic> items = widget.previousValues!['items'];
       for (var item in items) {
         _urlControllers.add(TextEditingController(text: item['url']));
       }
@@ -33,6 +33,14 @@ class _CarouselPickerModalState extends State<CarouselPickerModal> {
     }
     setState(() {});
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    for (var controller in _urlControllers) {
+      controller.dispose();
+    }
+    super.dispose();
   }
 
   @override
