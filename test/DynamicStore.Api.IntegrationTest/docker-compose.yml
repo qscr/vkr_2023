@@ -1,0 +1,35 @@
+version: '2.1'
+
+services:
+  dbtest:
+    container_name: dbtest
+    image: postgres
+    restart: always
+    ports:
+      - '${POSTGRESPORT}:5432'
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRESPASSWORD}
+      POSTGRES_USER: ${POSTGRESUSER}
+
+  rabbitmqtest:
+    container_name: rabbitmqtest
+    image: rabbitmq:3-management
+    restart: always
+    ports:
+      - ${RABBITMQPORT}:5672
+    environment:
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQPASSWORD}
+      RABBITMQ_DEFAULT_USER: ${RABBITMQUSER}
+      RABBITMQ_DEFAULT_VHOST: ${RABBITMQVHOST}
+
+  minio:
+    container_name: miniotest
+    image: 'bitnami/minio:latest'
+    restart: always
+    ports:
+      - '${MINIOPORT}:9000'
+      - '${MINIOLOGPORT1}:${MINIOLOGPORT2}'
+    environment:
+      MINIO_ROOT_USER: ${MINIOROOTUSER}
+      MINIO_ROOT_PASSWORD: ${MINIOROOTPASSWORD}
+      MINIO_DEFAULT_BUCKETS: ${MINIOBUCKETNAME}

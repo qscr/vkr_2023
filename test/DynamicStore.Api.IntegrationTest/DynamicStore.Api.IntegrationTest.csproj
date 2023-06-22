@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Package">
+		<Authors>Maxim Petrov</Authors>
+		<Company>Maxim Petrov</Company>
+		<Product>Название проекта</Product>
+		<Description>Описание проекта</Description>
+		<Copyright>Copyright © Maxim Petrov. All rights Reserved</Copyright>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<DefineConstants>$(DefineConstants);Rabbitmq;S3storage;Postgresql;Authentication;Kafka</DefineConstants>
+		<Rabbitmq>true</Rabbitmq>
+		<S3storage>true</S3storage>
+		<Postgresql>true</Postgresql>
+		<Authentication>true</Authentication>
+		<Kafka>true</Kafka>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Content Include="docker-compose.yml">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Ductus.FluentDocker" Version="2.10.56" />
+		<PackageReference Include="Respawn.Postgres" Version="1.0.15" />
+	</ItemGroup>
+	
+	<ItemGroup Label="Project References">
+		<ProjectReference Include="..\..\src\DynamicStore.Api.Client\DynamicStore.Api.Client.csproj" />
+		<ProjectReference Include="..\..\src\DynamicStore.Api.Contracts\DynamicStore.Api.Contracts.csproj" />
+		<ProjectReference Include="..\..\src\DynamicStore.Api.Core\DynamicStore.Api.Core.csproj" />
+		<ProjectReference Include="..\..\src\DynamicStore.Api.Data.Migrator\DynamicStore.Api.Data.Migrator.csproj" />
+		<ProjectReference Include="..\..\src\DynamicStore.Api.Data.PostgreSql\DynamicStore.Api.Data.PostgreSql.csproj" />
+		<ProjectReference Include="..\..\src\DynamicStore.Api.Data.RabbitMq\DynamicStore.Api.Data.RabbitMq.csproj" />
+		<ProjectReference Include="..\..\src\DynamicStore.Api.Data.S3\DynamicStore.Api.Data.S3.csproj" />
+		<ProjectReference Include="..\..\src\DynamicStore.Api.Web\DynamicStore.Api.Web.csproj" />
+		<ProjectReference Include="..\DynamicStore.Api.UnitTest\DynamicStore.Api.UnitTest.csproj" />
+	</ItemGroup>
+
+</Project>

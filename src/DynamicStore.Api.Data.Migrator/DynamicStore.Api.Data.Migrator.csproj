@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<UserSecretsId>c508035a-9672-4c27-bd92-f6cea9078f1e</UserSecretsId>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Package">
+		<Authors>Maxim Petrov</Authors>
+		<Company>Maxim Petrov</Company>
+		<Product>Название проекта</Product>
+		<Description>Описание проекта</Description>
+		<Copyright>Copyright © Maxim Petrov. All rights Reserved</Copyright>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Remove="appsettings.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.6">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+		<PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
+		<PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="4.0.1" />
+		<PackageReference Include="Serilog.Sinks.Debug" Version="2.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\DynamicStore.Api.Core\DynamicStore.Api.Core.csproj" />
+		<ProjectReference Include="..\DynamicStore.Api.Data.PostgreSql\DynamicStore.Api.Data.PostgreSql.csproj" />
+	</ItemGroup>
+
+</Project>

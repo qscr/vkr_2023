@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Package">
+		<Authors>Maxim Petrov</Authors>
+		<Company>Maxim Petrov</Company>
+		<Product>Название проекта</Product>
+		<Description>Описание проекта</Description>
+		<Copyright>Copyright © Maxim Petrov. All rights Reserved</Copyright>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AspNetCore.HealthChecks.Hangfire" Version="6.0.2" />
+		<PackageReference Include="Hangfire.AspNetCore" Version="1.7.30" />
+		<PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\DynamicStore.Api.Contracts\DynamicStore.Api.Contracts.csproj" />
+		<ProjectReference Include="..\DynamicStore.Api.Core\DynamicStore.Api.Core.csproj" />
+	</ItemGroup>
+
+</Project>

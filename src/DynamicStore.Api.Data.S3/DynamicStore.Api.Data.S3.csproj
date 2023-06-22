@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Package">
+		<Authors>Maxim Petrov</Authors>
+		<Company>Maxim Petrov</Company>
+		<Product>Название проекта</Product>
+		<Description>Описание проекта</Description>
+		<Copyright>Copyright © Maxim Petrov. All rights Reserved</Copyright>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.2" />
+		<PackageReference Include="AWSSDK.S3" Version="3.7.9.15" />
+		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="6.0.6" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\DynamicStore.Api.Core\DynamicStore.Api.Core.csproj" />
+	</ItemGroup>
+
+</Project>
